@@ -3,6 +3,8 @@
     "src/**/*"
   ],
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowJs": true,                                     /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "module": "CommonJS",                                /* Specify what module code is generated. */
     // "rootDir": "./dist",                                  /* Specify the root folder within your source files. */
@@ -10,7 +12,9 @@
     "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-    "strict": true,                                      /* Enable all strict type-checking options. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "strict": true,         
+    "lib": ["es6"],                                      /* Specify a set of bundled library declaration files that describe the target runtime environment. */
+    "noImplicitAny": false,                               /* Enable error reporting for expressions and declarations with an implied 'any' type. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
   }
 }

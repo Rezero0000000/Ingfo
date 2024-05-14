@@ -21,7 +21,7 @@ const config: { [key: string]: Knex.Config } = {
       user: "username",
       password: "password"
     },
-    pool: {
+    pool: {d
       min: 2,
       max: 10
     },
