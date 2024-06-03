@@ -1,6 +1,9 @@
-import { Server } from "hyper-express";
+// import { Server } from "hyper-express";
+import hyperexpress from "hyper-express";
 import { UserController } from "../controller/user-controller";
 
-export const web = new Server();
+const web = new hyperexpress.Router()
 
-web.get("/user/login", UserController.register);
+web.get("/user/login",UserController.register);
+
+export default web;

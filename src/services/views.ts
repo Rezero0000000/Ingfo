@@ -1,62 +1,63 @@
-import { readFileSync, readdirSync, statSync } from "fs";
-import * as Sqrl from 'squirrelly'
-const manifest = require("../../public/manifest.json");
-import path from "path";
+import { readFileSync, readdirSync, statSync } from 'fs';
+import * as Sqrl from 'squirrelly';
+import path from 'path';
 
-let html_files = {} as {
-   [key: string]: string;
-};
- 
-function importFiles(directory = "resources/views") {
-   const files = readdirSync(directory);
+// Path to manifest.json in public directory
+const manifest = require(path.resolve(__dirname, '../public/manifest.json'));
 
-   for (const filename of files) {
-      const results = statSync(path.join(directory, filename));
+let html_files = {};
 
-      if (results.isDirectory()) {
-         importFiles(path.join(directory, filename)); // recursive call to get all files
-      } else {
-         const html = readFileSync(path.join(directory, filename), "utf8");
+function importFiles(directory = path.resolve(__dirname, '../resources/views')) {
+  const files = readdirSync(directory);
 
-         html_files[directory + "/" + filename] = html;
-      }
-   }
+  for (const filename of files) {
+    const filePath = path.join(directory, filename);
+    const results = statSync(filePath);
+
+    if (results.isDirectory()) {
+      importFiles(filePath); // recursive call to get all files
+    } else {
+      const html = readFileSync(filePath, 'utf8');
+      html_files[filePath] = html;
+    }
+  }
 }
-export function view(filename: string, view_data?: any) {
-   let directory = "resources/views";
 
-   const keys = Object.keys(view_data || {});
+export function view(filename, view_data = {}) {
+  const directory = path.resolve(__dirname, '../resources/views');
+  const filePath = path.join(directory, filename);
 
-   let html = process.env.CACHE_VIEW == "true" ?  html_files[directory + "/" + filename] : readFileSync(path.join(directory, filename), "utf8");;
-   
- 
+  let html = process.env.CACHE_VIEW === 'true'
+    ? html_files[filePath]
+    : readFileSync(filePath, 'utf8');
 
-   html = Sqrl.render(html, {
-      ...view_data,
-      ...manifest
-   });
+  console.log("Rendering HTML with data:", view_data);
+  console.log("Using manifest:", manifest);
 
+  // Combine view data and manifest data
+  html = Sqrl.render(html, {
+    ...view_data,
+    manifest // Adding the manifest object to the view data
+  });
 
-
-   if(process.env.NODE_ENV == 'development')
-   {
-      html = html.replace("</body>",`
+  if (process.env.NODE_ENV === 'development') {
+    html = html.replace('</body>', `
       <script>
-      var evtSource = new EventSource('http://localhost:8001/subscribe');
-
-         evtSource.onmessage = function (event) { 
-         if (event.data.includes("reload")) {
-            console.log("reloaded")
-            location.reload()
-         }
-      };
+        var evtSource = new EventSource('http://localhost:8001/subscribe');
+        evtSource.onmessage = function (event) { 
+          if (event.data.includes("reload")) {
+            console.log("reloaded");
+            location.reload();
+          }
+        };
       </script>
       </body>
-      `)
-   }
-   
+    `);
+  }
 
-   return html;
+  console.log("Final rendered HTML:", html);
+
+  return html;
 }
 
 export default importFiles();
