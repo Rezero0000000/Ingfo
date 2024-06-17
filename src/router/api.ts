@@ -8,6 +8,7 @@ api.post("/api/category", CategoryController.create);
 api.delete("/api/category/:id", CategoryController.remove);
 
 // Post
+api.get("/api/post/:id", PostController.get);
 api.post("/api/post", PostController.create);
 api.delete("/api/post", PostController.remove);
 

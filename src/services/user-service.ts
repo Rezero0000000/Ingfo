@@ -8,11 +8,11 @@ import { v4 as uuid } from "uuid";
 
 export class UserServices {
    static async register (req: CreateUser): Promise<User> {
-       const validateRequest = await Validation.validate(UserValidation.CREATE, req);
-       validateRequest.password = await bcrypt.hash(validateRequest.password, 10);
+       const validatedRequest = await Validation.validate(UserValidation.CREATE, req);
+       validatedRequest.password = await bcrypt.hash(validatedRequest.password, 10);
 
-       const isUsernameUsed = await db("users").where("username", validateRequest.username).first()
-       const isEmailUsed = await db("users").where("email", validateRequest.email).first();
+       const isUsernameUsed = await db("users").where("username", validatedRequest.username).first()
+       const isEmailUsed = await db("users").where("email", validatedRequest.email).first();
 
        if (isEmailUsed) {
         console.log("email kepake")
@@ -22,19 +22,19 @@ export class UserServices {
        }
 
        const dataId = await db("users").insert({
-            name: validateRequest.name,
-            username: validateRequest.username,
-            email: validateRequest.email,
-            password: validateRequest.password
+            name: validatedRequest.name,
+            username: validatedRequest.username,
+            email: validatedRequest.email,
+            password: validatedRequest.password
        });
        const user = await db('users').where("id", dataId[0]).first();
        return ToUserResponse(user)
    } 
 
    static async login (req: LoginUser, res: Response): Promise<User> {
-        const validateRequest = await Validation.validate(UserValidation.LOGIN, req);
+        const validatedRequest = await Validation.validate(UserValidation.LOGIN, req);
 
-        const isEmailMatch = await db("users").where("email", validateRequest.email).first();
+        const isEmailMatch = await db("users").where("email", validatedRequest.email).first();
         
         if (!isEmailMatch) {
             res.status(400).json({
@@ -44,7 +44,7 @@ export class UserServices {
     
         }
 
-        const isPasswordMatch = await bcrypt.compare(validateRequest.password, isEmailMatch.password);
+        const isPasswordMatch = await bcrypt.compare(validatedRequest.password, isEmailMatch.password);
 
         if (!isPasswordMatch) {
             res.status(400).json({
@@ -54,10 +54,11 @@ export class UserServices {
         }
 
         const token = uuid();
-        await db("users").where("email", validateRequest.email).first().update({
+        await db("users").where("email", validatedRequest.email).first().update({
             token: token
         });
-
+        isEmailMatch.token = token
+        console.log(isEmailMatch)
         return ToUserResponse(isEmailMatch);
    }
 }

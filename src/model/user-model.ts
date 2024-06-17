@@ -8,6 +8,8 @@ export type User = {
     created_at: string
 }
 
+
+
 export type UserResponse = {
     id: number,
     name: string,
@@ -38,6 +40,7 @@ export function ToUserResponse (user: User): UserResponse {
         username: user.username,
         email: user.email,
         password: user.password,
+        token: user.token,
         created_at: user.created_at
     }
 }

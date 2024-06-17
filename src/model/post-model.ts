@@ -1,7 +1,7 @@
 
 export type Post = {
     id: number,
-    name: string,
+    title: string,
     slug: string,
     image?: string,
     body: string,
@@ -10,17 +10,28 @@ export type Post = {
 }
 
 export type CreatePostRequest = {
-    name: string,
+    title: string,
     slug: string,
     image?: string,
     body: string,
+    user_id: number,
+    category_id: number
+}
+
+export type PostResponse = {
+    id: number,
+    title: string,
+    slug: string,
+    image?: string,
+    body: string,
+    user_id: number,
     category_id: number,
 }
 
 export function toPostResponse (post: Post) {
     return ({
         id: post.id,
-        name: post.name,
+        title: post.title,
         slug: post.slug,
         image: post.image,
         body: post.body,
