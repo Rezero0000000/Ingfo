@@ -1,4 +1,4 @@
-import { CreateUser } from "../model/user-model";
+import { CreateUser, LoginUser } from "../model/user-model";
 import { UserServices } from "../services/user-service";
 import { Response, Request } from "../types/types";
 
@@ -22,8 +22,8 @@ export class UserController {
 
     static async login (req: Request, res: Response) {
         try {
-            const data: CreateUser = await req.json() as CreateUser 
-            const response = UserServices.login(data)
+            const data: LoginUser = await req.json() as LoginUser 
+            const response = await UserServices.login(data, res)
 
             res.status(200).json({
                 data: response

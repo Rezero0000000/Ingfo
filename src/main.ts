@@ -1,5 +1,6 @@
 import hyperExpress from "hyper-express"
 import web from "./router/public-api";
+import api from "./router/api";
 import inertia from "./middleware/inertia";
 
 const LiveDirectory = require('live-directory');
@@ -10,6 +11,7 @@ const server = new hyperExpress.Server()
 
 server.use(inertia())
 server.use(web)
+server.use(api)
 
 const LiveAssets = new LiveDirectory(__dirname+"/public",{  // We want to provide the system path to the folder. Avoid using relative paths.
     keep: {
