@@ -1,6 +1,6 @@
 import { Request, Response } from "hyper-express";
 import { UserRequest } from "../types/types";
-import { CreatePostRequest } from "../model/post-model";
+import { CreatePostRequest, UpdatePostRequest } from "../model/post-model";
 import { PostService } from "../services/post-service";
 
 export class PostController {
@@ -34,9 +34,13 @@ export class PostController {
     }
 
     
-    static async remove (req: Request, res: Response) {
+    static async remove (req: UserRequest, res: Response) {
         try {
-            
+            const id = Number(req.params.postId);
+            const response = await PostService.remove(id);
+            res.status(200).json({
+                data: response
+            });
         }
         catch (e) {
             res.status(400).json({
@@ -45,9 +49,15 @@ export class PostController {
         }
     }
 
-    static async update (req: Request, res: Response) {
+    static async update (req: UserRequest, res: Response) {
         try {
-            
+            const request: UpdatePostRequest = await req.json() as UpdatePostRequest
+            const id = Number(req.params.postId);
+            const userId = req.user!.id
+            const response = await PostService.update(request, id, userId);
+            res.status(200).json({
+                data: response
+            });
         }
         catch (e) {
             res.status(400).json({

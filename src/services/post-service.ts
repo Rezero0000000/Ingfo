@@ -1,5 +1,5 @@
 import { db } from "../application/db";
-import { CreatePostRequest, PostResponse, toPostResponse } from "../model/post-model";
+import { CreatePostRequest, Post, PostResponse, toPostResponse, UpdatePostRequest } from "../model/post-model";
 import { PostValidation } from "../valiation/post-validation";
 import { Validation } from "../valiation/validation";
 
@@ -48,5 +48,33 @@ export class PostService {
             .select('categories.*')
             .groupBy('categories.id').first();
             console.log(note2)   
+    }
+
+    static async remove (id: number): Promise<string> {
+        const status = await db("posts").where("id", id).del();
+        if (!status) {
+            console.log("Gagal")
+        }
+        return "OK"
+    }
+
+    static async update (req: UpdatePostRequest, id: number, user_id: number): Promise<Post> {
+        const validatedRequest = await Validation.validate(PostValidation.UPDATE, req);
+
+        const status = await db("posts").where("id", id).update({
+            title: validatedRequest.title,
+            slug: validatedRequest.slug,
+            image: validatedRequest.image,
+            body: validatedRequest.body,
+            user_id: user_id,
+            category_id: validatedRequest.category_id
+        });
+
+        if (!status) {
+            console.log("GAGAL")
+        }
+
+        const post = await db("posts").where("id", id).first();
+        return toPostResponse(post);
     }
 }

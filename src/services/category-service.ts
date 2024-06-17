@@ -1,5 +1,5 @@
 import { db } from "../application/db";
-import { Category, CreateCategoryRequest, toCategoryResponse } from "../model/category-model";
+import { Category, CreateCategoryRequest, toCategoryResponse, UpdateCategoryRequest } from "../model/category-model";
 import { CategoryValidation } from "../valiation/category-validation";
 import { Validation } from "../valiation/validation";
 
@@ -28,5 +28,25 @@ export class CategoryService {
         }
 
         return "Berhasil euy"
+    }
+
+    static async getCategory (id: number): Promise<Category> {
+        const category = await db("categories").where("id", id).first();
+        return toCategoryResponse(category);
+    }
+
+    static async update (req: UpdateCategoryRequest, id: number): Promise<Category> {
+        const validatedRequest = await Validation.validate(CategoryValidation.UPDATE, req);
+        
+        const status = await db("categories").where("id", id).update({
+            title: validatedRequest.title,
+            slug: validatedRequest.slug
+        });
+        if (!status) {
+            console.log("Gagal euy")
+        }
+
+        const currentCategory = await db("categories").where("id", id).first();
+        return toCategoryResponse(currentCategory);
     }
 }

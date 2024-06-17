@@ -5,6 +5,7 @@ import { UserValidation } from "../valiation/user-validation";
 import { Validation } from "../valiation/validation";
 import bcrypt from "bcrypt"
 import { v4 as uuid } from "uuid";
+import { UserRequest } from "../types/types";
 
 export class UserServices {
    static async register (req: CreateUser): Promise<User> {
@@ -60,5 +61,17 @@ export class UserServices {
         isEmailMatch.token = token
         console.log(isEmailMatch)
         return ToUserResponse(isEmailMatch);
+   }
+
+   static async logout (req: UserRequest): Promise<string> {
+    const status = await db("users").where("token", req.user!.token).update({
+        token: null
+    });
+
+    if (!status) {
+        console.log("Gagal logout");
+    }
+
+    return "Bye Bye"
    }
 }

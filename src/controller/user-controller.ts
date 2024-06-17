@@ -1,3 +1,4 @@
+import { error } from "console";
 import { CreateUser, LoginUser } from "../model/user-model";
 import { UserServices } from "../services/user-service";
 import { Response, UserRequest } from "../types/types";
@@ -30,6 +31,20 @@ export class UserController {
             });
         }
         catch(e) {
+            res.status(400).json({
+                error: e
+            })
+        }
+    }
+
+    static async logout (req: UserRequest, res: Response) {
+        try {
+            const response = await UserServices.logout (req);
+            res.status(200).json({
+                message: response
+            })
+        }
+        catch (e) {
             res.status(400).json({
                 error: e
             })

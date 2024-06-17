@@ -4,7 +4,7 @@ import { UserController } from "../controller/user-controller";
 
 const web = new hyperexpress.Router()
 
-web.post("/api/register",UserController.register);
-web.post("/api/login",UserController.login);
+web.post("/register",UserController.register);
+web.post("/login",UserController.login);
 
 export default web;

@@ -18,6 +18,14 @@ export type CreatePostRequest = {
     category_id: number
 }
 
+export type UpdatePostRequest = {
+    title?: string,
+    slug?: string,
+    image?: string,
+    body?: string,
+    category_id?: number
+}
+
 export type PostResponse = {
     id: number,
     title: string,
