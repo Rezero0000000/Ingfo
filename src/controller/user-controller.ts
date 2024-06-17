@@ -1,6 +1,6 @@
 import { CreateUser, LoginUser } from "../model/user-model";
 import { UserServices } from "../services/user-service";
-import { Response } from "../types/types";
+import { Response, UserRequest } from "../types/types";
 import { Request } from "hyper-express";
 
 export class UserController {
@@ -9,7 +9,6 @@ export class UserController {
             const data: CreateUser = await req.json() as CreateUser 
             const response = await UserServices.register(data)
 
-            console.log(response)
             res.status(200).json({
                 data: response
             });
@@ -36,4 +35,5 @@ export class UserController {
             })
         }
     }
+
 }

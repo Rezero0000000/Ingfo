@@ -33,9 +33,21 @@ export class PostController {
         }
     }
 
+    
     static async remove (req: Request, res: Response) {
         try {
+            
+        }
+        catch (e) {
+            res.status(400).json({
+                message: e
+            })
+        }
+    }
 
+    static async update (req: Request, res: Response) {
+        try {
+            
         }
         catch (e) {
             res.status(400).json({
