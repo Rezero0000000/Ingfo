@@ -13,7 +13,7 @@ server.use(inertia());
 
 
 web.use((req, res, next) => {
-    if (req.path !== '/api/login' && req.path !== '/api/register') {
+    if (req.path !== '/login' && req.path !== '/register') {
         authMiddleware(req, res, next);
     } else {
         next();

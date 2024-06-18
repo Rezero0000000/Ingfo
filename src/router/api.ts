@@ -9,7 +9,7 @@ const api = new hyperExpress.Router();
 api.delete("/logout", UserController.logout);
 
 // Category
-api.get("/api/category", CategoryController.getCategory);
+api.get("/api/category/:categoryId", CategoryController.getCategory);
 api.post("/api/category", CategoryController.create);
 api.put("/api/category/:categoryId", CategoryController.update)
 api.delete("/api/category/:categoryId", CategoryController.remove);

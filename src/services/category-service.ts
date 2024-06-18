@@ -32,6 +32,9 @@ export class CategoryService {
 
     static async getCategory (id: number): Promise<Category> {
         const category = await db("categories").where("id", id).first();
+        if (!category) {
+            console.log("Gada cuy")
+        }
         return toCategoryResponse(category);
     }
 

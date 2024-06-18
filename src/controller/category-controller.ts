@@ -50,7 +50,7 @@ export class CategoryController {
 
     static async update (req: Request, res: Response) {
         try {
-            const request: UpdateCategoryRequest = await req.json as UpdateCategoryRequest;
+            const request: UpdateCategoryRequest = await req.json() as UpdateCategoryRequest;
             const id = Number(req.params.categoryId);
             const response = await CategoryService.update(request, id);
             res.status(200).json({
