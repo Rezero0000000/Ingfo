@@ -17,17 +17,16 @@
 
   const url = ""
 </script>
+<Navbar></Navbar>
 
 <Router {url}>
   <main class="px-5 overflow-hidden sm:px-10 md:px-28 lg:px-32">
-    <Navbar></Navbar>
     <Route path="/" component={Home} />
-    <Route path="/profile/edit" component={EditProfile}/>
-    <Route path="/profile" component={Profile}/>
-    <Route path="/user" component={User}/>
     <Route path="/about" component={About}/>
     <Route path="/blog" component={Blog}/>
-    <Footer></Footer>
+    <Route path="/user" component={User}/>
+    <Route path="/profile" component={Profile}/>
+    <Route path="/profile/edit" component={EditProfile}/>
   </main>
 </Router>
 
@@ -35,3 +34,5 @@
   <Route path="/register" component={Register} />
   <Route path="/login" component={Login} />
 </Router>
+
+<Footer></Footer>
