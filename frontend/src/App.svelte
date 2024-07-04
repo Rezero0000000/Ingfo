@@ -10,11 +10,11 @@
   import About from "./page/about.svelte";
   import Login from "./auth/Login.svelte";
   import Register from "./auth/Register.svelte";
+  import NotFound from "./page/NotFound.svelte";
 
   // components
   import Navbar from "./components/Navbar.svelte";
   import Footer from "./components/Footer.svelte";
-
   const url = ""
 </script>
 <Navbar></Navbar>
@@ -27,10 +27,8 @@
     <Route path="/user" component={User}/>
     <Route path="/profile" component={Profile}/>
     <Route path="/profile/edit" component={EditProfile}/>
+    <Route path="*" component={NotFound}/>
   </main>
-</Router>
-
-<Router {url}>
   <Route path="/register" component={Register} />
   <Route path="/login" component={Login} />
 </Router>

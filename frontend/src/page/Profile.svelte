@@ -37,7 +37,7 @@
                     Follow
                 </button>
             </form>
-            <a href="/profile/edit" class="px-5 py-2 mr-3 text-sm font-medium text-white bg-blue-700 rounded-md sm:ml-5 sm:px-10 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</a>
+            <!-- <a href="/profile/edit" class="px-5 py-2 mr-3 text-sm font-medium text-white bg-blue-700 rounded-md sm:ml-5 sm:px-10 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Profile</a> -->
         </div>
     </div>
 </div>
